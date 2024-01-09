@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 @Slf4j
@@ -58,6 +60,26 @@ public class RestApiController {
     @DeleteMapping(path = {"/user/{userName}/delete","/user/{userName}/del"})
     public void delete(@PathVariable String userName){
         log.info("user-name : {}", userName);
+    }
+
+    @GetMapping(path="")
+    public void exceptionTest(){
+        var list = List.of("hello");
+
+        var element = list.get(10);
+
+        // List.of("hello")로 생성된 리스트의 크기는 1이기 때문에 유효한 인덱스 범위는 0부터 0까지.
+        // 따라서 element = list.get(0);으로 첫 번째 (인덱스 0에 해당하는) 요소에 안전하게 접근
+        // 위의 코드는 IndexOutOfBoundsException 을 발생시킴
+        // RestApiExceptionHandler에서 따로 처리
+        log.info("element : {} ",element);
+       /* Try - catch 로 예외처리를 잡아주는건 비효율적
+        try{
+            var element = list.get(1);
+        }catch(Exception e){
+            log.error("",e);
+        }*/
+//        throw new RuntimeException("run time exception test call");
     }
 
 }
