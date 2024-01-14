@@ -47,6 +47,12 @@ public class UserApiController {
     public Api<UserResponse> getUser(
             @PathVariable(value = "userId") String userId
     ){
+
+        //강제로 예외처리 던지기
+        if(true){
+            throw new RuntimeException();
+        }
+
         // 사용자 목록에서 주어진 userId와 일치하는 사용자를 찾기 위해 스트림 사용
         var user = userList.stream().filter(
                         it -> it.getId().equals(userId)
